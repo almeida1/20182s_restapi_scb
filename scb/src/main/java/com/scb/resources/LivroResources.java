@@ -2,6 +2,8 @@ package com.scb.resources;
 
 
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,7 +34,7 @@ public class LivroResources {
 	}
 	@ApiOperation(value=" cadastra um livro")
 	@PostMapping()
-	public Livro CadastraLivro(@RequestBody Livro livro){
+	public Livro CadastraLivro(@RequestBody @Valid Livro livro){
 		return er.save(livro);
 		
 	}
