@@ -2,7 +2,9 @@ package com.scb.scb;
 
 
 import org.junit.AfterClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -28,7 +30,8 @@ public class LivroRepositoryTest {
 
     @Autowired
     private LivroRepository livroRepository;
-    
+    @Rule
+    public ExpectedException exceptionRule = ExpectedException.none();
 
   
     @Test
@@ -59,5 +62,19 @@ public class LivroRepositoryTest {
         assertThat(lista.get(1)).isEqualTo(livro2);
         livroRepository.delete(livro1);
         livroRepository.delete(livro2);
+        
+    }
+    
+    public void whenExceptionThrown_thenExpectationSatisfied() {
+    	 //given
+        Livro livro1 = new Livro();
+        livro1.setIsbn("3333");
+        livro1.setAutor("Larman");
+        livro1.setTitulo("UML e Padrões");
+        exceptionRule.expect(RuntimeException.class);
+        exceptionRule.expectMessage("Duplicate entry '3333' for key 'PRIMARY");
+    	 entityManager.persist(livro1);
+         entityManager.flush();
+         
     }
 }
