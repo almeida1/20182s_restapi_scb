@@ -24,24 +24,24 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/livro")
 public class LivroResources {
 	@Autowired // injecao de dependencia
-	private LivroRepository er;
+	private LivroRepository livroRepository;
 	
 	@ApiOperation(value=" retorna uma lista de livros")
 	@GetMapping(produces = "application/json")
 	public @ResponseBody Iterable<Livro> listaLivros() {
-		Iterable<Livro> listaLivros = er.findAll();
+		Iterable<Livro> listaLivros = livroRepository.findAll();
 		return listaLivros;
 	}
 	@ApiOperation(value=" cadastra um livro")
 	@PostMapping()
-	public Livro CadastraLivro(@RequestBody @Valid Livro livro){
-		return er.save(livro);
+	public Livro cadastraLivro(@RequestBody @Valid Livro livro){
+		return livroRepository.save(livro);
 		
 	}
 	@ApiOperation(value=" deleta um livro")
 	@DeleteMapping()
 	public Livro deleteLivro (@RequestBody Livro livro){
-		er.delete(livro);
+		livroRepository.delete(livro);
 		return livro;
 	}
 }
